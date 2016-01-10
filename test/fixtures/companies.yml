@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  siret: MyString
+  plan_id: 
+  ratio: 1.5
+
+two:
+  name: MyString
+  siret: MyString
+  plan_id: 
+  ratio: 1.5
