@@ -1,0 +1,59 @@
+
+
+
+
+<form>
+  <div class="form-group" id="batchEmailSection">
+    <label for="batchEmailInput">Email address</label>
+    <input type="email" class="form-control" id="batchEmailInput" placeholder="Copy paste your emails there">
+    <p class="help-block">I will try to understand the email addresses that you copy pasted above in batch. Press the button when you  are ready!</p>
+    <button type="button" class="btn btn-info">Parse</button>
+  </div>
+  <div class="form-group" id="emailsSection">
+    <div class="form-group emailGroup" id="emailGroup1">
+      <input type="email" class="form-control" id="email1" placeholder="Email">
+      <input type="text" class="form-control" id="firstName1" placeholder="First Name">
+      <input type="text" class="form-control" id="lastName1" placeholder="Last Name">
+      <input type="checkbox" checked> Insured
+    </div>
+  </div>
+  <button type="button" class="btn btn-default" id="jsBtn">Submit</button>
+  <p id="jsOut"> Bloup </p>
+</form>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+
+  function cloneAncestor(objectClass) {
+
+    var regex = /^(.+?)(\d*)$/i;
+    var obj = $(this).parents(objectClass);
+    var ids = obj[0].id.match(regex);
+
+    obj.clone()
+      .attr("id", ids[1] + (parseInt(ids[2]) + 1) )
+      .appendTo(obj.parent())
+      .find("*").each(function() {
+        var id = this.id || "";
+        var match = id.match(regex) || [];
+        if (match.length == 3) {
+          this.id = match[1] + (parseInt(ids[2]) + 1);
+        }
+        this.value = "";
+        if (this.type == 'email') {
+          this.oninput = addField;
+        }
+      });
+
+  }
+
+  var addField = function() {
+    document.getElementById("jsOut").innerHTML = this.id;
+    cloneAncestor.apply(this, [".emailGroup"]); // We need apply to have cloneAncestor access this. See http://stackoverflow.com/a/1081622/1877609
+    this.oninput = null;
+  };
+
+  // Bindings:
+  document.getElementById("jsBtn").onclick = addField;
+  document.getElementById("email1").oninput = addField;
+</script>
