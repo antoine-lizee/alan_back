@@ -6,4 +6,9 @@ class ApplicationController < ActionController::Base
   # Devise:
   before_action :authenticate_user!
 
+  # Devise helpers: (-> for the RegistrationController)
+  def after_sign_up_path_for(resource)
+    new_company_path
+  end
+
 end
