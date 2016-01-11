@@ -1,8 +1,8 @@
-class HomeController < ApplicationController
+class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!
 
-  def index
+  def home
   end
 
   def about
