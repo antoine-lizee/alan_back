@@ -41,10 +41,17 @@ function parseEmails(emailString) {
     .filter(function(el) {return emailRegex.test(el)})
 }
 
+var timer = 0;
 var parseSink = function() {
-  var ttt = parseEmails(this.value);
-  populate(ttt);
-  document.getElementById("jsOut").innerHTML = ttt;
+  var el = this;
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(function() {
+    var ttt = parseEmails(el.value);
+    populate(ttt);
+    document.getElementById("jsOut").innerHTML = ttt;
+  }, 1000);
 };
 
 
