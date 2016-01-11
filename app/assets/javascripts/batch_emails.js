@@ -19,6 +19,12 @@ function cloneAncestor(objectClass) {
       this.value = "";
       if (this.type == 'email') {
         this.oninput = addField;
+        this.addEventListener('input', parseEmailField);
+      }
+      if (this.id.indexOf('firstName') > -1) {
+        this.addEventListener('focus', function() {
+          parseEmailField.apply($(this).parent().parent().find(".emailField")[0])
+        });
       }
     });
 
@@ -45,16 +51,14 @@ function parseEmails(emailString) {
     .filter(function(el) {return emailRegex.test(el)})
 }
 
-var timer = 0;
+var sinkTimer = 0;
 var parseSink = function() {
   var el = this;
-  if (timer) {
-    clearTimeout(timer);
+  if (sinkTimer) {
+    clearTimeout(sinkTimer);
   }
-  timer = setTimeout(function() {
-    var ttt = parseEmails(el.value);
-    populateEmails(ttt);
-    document.getElementById("jsOut").innerHTML = ttt;
+  sinkTimer = setTimeout(function() {
+    populateEmails(parseEmails(el.value));
   }, 1000);
 };
 
@@ -65,7 +69,6 @@ var populated = {}; // to keep track of what we inserted already.
 
 function populateEmail(email) {
   var N = $('.emailGroup').length;
-  console.log(N);
   var emailGroup = document.getElementById("email" + N);
   emailGroup.value = email;
   addField.apply(emailGroup);
@@ -80,6 +83,47 @@ function populateEmails(emailsArray) {
     }
   }
 }
+
+
+// Parsing entries ----
+
+// Global knowledge of best strategy
+var globalSep = null;
+
+function parseEmail(email, sep) {
+  var preField = email.split('@')[0];
+  if (sep === undefined) {
+    if (preField.indexOf('.') > -1) {
+      sep = '.';
+    } else {
+      sep = [0,1];
+    }
+  }
+  switch(typeof sep) {
+    case 'string':
+      return preField.split(sep, 2);
+    case 'object':
+      return [preField.slice(sep[0], sep[1]), preField.slice(sep[1], sep[2])];
+    default :
+      preField.split('.', 2);
+  }
+}
+
+function populateNames(names, el) {
+  fnField = $(el).parents(".emailGroup").find(".fnField")[0];
+  lnField = $(el).parents(".emailGroup").find(".lnField")[0];
+  if (fnField.value == '' && lnField.value == '') {
+    fnField.value = names[0];
+    lnField.value = names[1];
+  }
+}
+
+var parseEmailField = function() {
+  var el = this;
+  if (/^[^\s@]+@[^\s@]+$/i.test(el.value)) {
+    populateNames(parseEmail(el.value), el)
+  };
+};
 
 
 // DOM Miscs ----
@@ -97,4 +141,8 @@ $(document).on('page:change', function() {
   };
   document.getElementById("batchEmailSink").oninput = parseSink;
   document.getElementById("email1").oninput = addField;
+  document.getElementById("email1").addEventListener('input', parseEmailField);
+  document.getElementById("firstName1").addEventListener('focus', function() {
+    parseEmailField.apply($(this).parent().parent().find(".emailField")[0])
+  });
 });
