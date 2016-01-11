@@ -11,4 +11,12 @@ class ApplicationController < ActionController::Base
     new_company_path
   end
 
+  def after_sign_in_path_for(resource)
+    unless resource.company_id
+      new_company_path
+    else
+      super
+    end
+  end
+
 end
