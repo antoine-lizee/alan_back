@@ -26,7 +26,11 @@ function cloneAncestor(objectClass) {
 
 var addField = function() {
   cloneAncestor.apply(this, [".emailGroup"]); // We need apply to have cloneAncestor access this. See http://stackoverflow.com/a/1081622/1877609
+  // Update current email field:
   this.oninput = null;
+  var btn = $(this).parents(".emailGroup").children("button.emailRemove")[0];
+  btn.style.visibility = 'visible';
+  btn.onclick = removeParent;
 };
 
 
@@ -49,7 +53,7 @@ var parseSink = function() {
   }
   timer = setTimeout(function() {
     var ttt = parseEmails(el.value);
-    populate(ttt);
+    populateEmails(ttt);
     document.getElementById("jsOut").innerHTML = ttt;
   }, 1000);
 };
@@ -59,7 +63,7 @@ var parseSink = function() {
 
 var populated = {}; // to keep track of what we inserted already.
 
-function addEntry(email) {
+function populateEmail(email) {
   var N = $('.emailGroup').length;
   console.log(N);
   var emailGroup = document.getElementById("email" + N);
@@ -67,16 +71,22 @@ function addEntry(email) {
   addField.apply(emailGroup);
 }
 
-function populate(emailsArray) {
+function populateEmails(emailsArray) {
   for (i=0, len=emailsArray.length; i<len; i++) {
     var email = emailsArray[i];
     if (!populated[email]) {
-      addEntry(email);
+      populateEmail(email);
       populated[email] = true;
     }
   }
 }
 
+
+// DOM Miscs ----
+
+function removeParent() {
+  this.parentNode.remove();
+}
 
 // Bindings: ----
 
@@ -87,4 +97,4 @@ $(document).on('page:change', function() {
   };
   document.getElementById("batchEmailSink").oninput = parseSink;
   document.getElementById("email1").oninput = addField;
-})
+});
