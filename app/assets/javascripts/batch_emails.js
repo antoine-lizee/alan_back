@@ -1,3 +1,6 @@
+
+// Adding email slots ----
+
 function cloneAncestor(objectClass) {
 
   var regex = /^(.+?)(\d*)$/i;
@@ -22,13 +25,59 @@ function cloneAncestor(objectClass) {
 }
 
 var addField = function() {
-  document.getElementById("jsOut").innerHTML = this.id;
   cloneAncestor.apply(this, [".emailGroup"]); // We need apply to have cloneAncestor access this. See http://stackoverflow.com/a/1081622/1877609
   this.oninput = null;
 };
 
-// Bindings:
+
+// Parsing the sink ----
+
+function parseEmails(emailString) {
+
+  var sepRegex = /\.\s|\s\.|[\s,\-\/#!$%\^&\*;:{}=\-_`~()\<\>]/;
+  var emailRegex=/^[^\s@]+@[^\s@]+$/i;
+
+  return emailString.split(sepRegex)
+    .filter(function(el) {return emailRegex.test(el)})
+}
+
+var parseSink = function() {
+  var ttt = parseEmails(this.value);
+  populate(ttt);
+  document.getElementById("jsOut").innerHTML = ttt;
+};
+
+
+// Populating entries ----
+
+var populated = {}; // to keep track of what we inserted already.
+
+function addEntry(email) {
+  var N = $('.emailGroup').length;
+  console.log(N);
+  var emailGroup = document.getElementById("email" + N);
+  emailGroup.value = email;
+  addField.apply(emailGroup);
+}
+
+function populate(emailsArray) {
+  for (i=0, len=emailsArray.length; i<len; i++) {
+    var email = emailsArray[i];
+    if (!populated[email]) {
+      addEntry(email);
+      populated[email] = true;
+    }
+  }
+}
+
+
+// Bindings: ----
+
 $(document).on('page:change', function() {
-  document.getElementById("jsBtn").onclick = addField;
+  document.getElementById("jsBtn").onclick = function() {
+    var ttt = parseEmails($("#batchEmailSink")[0].value);
+    document.getElementById("jsOut").innerHTML = ttt;
+  };
+  document.getElementById("batchEmailSink").oninput = parseSink;
   document.getElementById("email1").oninput = addField;
 })

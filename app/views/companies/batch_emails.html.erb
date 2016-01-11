@@ -2,19 +2,25 @@
 
 <form>
   <div class="form-group" id="batchEmailSection">
-    <label for="batchEmailInput">Email addresses</label>
+    <label for="batchEmailInput">Email addresses sink &nbsp;
+      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+      <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+    </label>
     <div class="row">
       <div class="col-lg-10">
-        <textarea type="email" class="form-control" id="batchEmailInput"
-                  placeholder="Copy paste an email list here, from an email address field for instance. You can also directly add entries below."></textarea>
+        <textarea type="email" class="form-control" id="batchEmailSink" rows = 7
+                  placeholder="Copy paste here some text with email addresses you want to extract, from an email address field for instance. You can also directly add entries below one by one."></textarea>
       </div>
-      <button type="button" class="btn btn-info col-lg-2">Parse</button>
     </div>
   </div>
   <hr>
   <div class="form-group" id="emailsSection">
-    <div class="form-group emailGroup" id="emailGroup1">
-      <div class="col-lg-6">
+    <div class="form-group emailGroup row" id="emailGroup1">
+      <button type="button" class="btn btn-warning pull-left">
+        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" aria-label="remove"></span>
+      </button>
+      <div class="col-lg-5">
         <input type="email" class="form-control" id="email1" placeholder="Email">
       </div>
       <div class="col-lg-2">
@@ -30,7 +36,6 @@
       </div>
     </div>
   </div>
-  <br>
   <hr>
   <button type="button" class="btn btn-default">Submit</button>
 </form>
@@ -42,4 +47,4 @@
 
 <button type="button" class="btn btn-default" id="jsBtn">JS Button</button> <br>
 <br>
-<textarea id="jsOut"> [JS DEBUG CONSOLE] </textarea>
+<textarea class="col-lg-10" rows = "4" id="jsOut"> [JS DEBUG CONSOLE] </textarea>
