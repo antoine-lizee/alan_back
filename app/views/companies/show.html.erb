@@ -2,6 +2,11 @@
 
 <h2> Emails in process </h2>
 
+<% @company.users.each do |user| %>
+  <p> <%= user.email %> </p>
+<% end %>
+
+
 <!-- There will go the nice list of guys having there email sent-->
 
 <h2> Details </h2>

@@ -26,8 +26,13 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        format.html { redirect_to batch_emails_company_path(@company), notice: 'Company information was successfully saved.' }
-        format.json { head :service_unavailable }
+        current_user.company = @company
+        if current_user.save
+          format.html { redirect_to batch_emails_company_path(@company), notice: 'Company information was successfully saved.' }
+          format.json { head :service_unavailable }
+        else
+          head :internal_server_error
+        end
       else
         format.html { render :new }
         format.json { head :service_unavailable }
@@ -63,7 +68,13 @@ class CompaniesController < ApplicationController
   end
 
   def send_batch_emails
-    batch_emails_params
+    users = batch_emails_params.reject {|u| u['email'].blank?}.map do |u|
+      User.create(email: u['email'],
+        password: (0...12).map { (65 + rand(26)).chr }.join,
+        company: @company
+      )
+    end
+    redirect_to company_path(@company)
   end
 
   private
@@ -77,8 +88,7 @@ class CompaniesController < ApplicationController
       params.require(:company).permit(:name, :siret, :plan_id, :ratio)
     end
 
-  def batch_emails_params
-    puts params
-    redirect_to company_path(@company)
-  end
+    def batch_emails_params
+      params.require(:users)
+    end
 end
