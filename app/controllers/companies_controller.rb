@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :batch_emails, :send_batch_emails]
 
   # GET /companies
   def index
@@ -59,6 +59,13 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def batch_emails
+  end
+
+  def send_batch_emails
+    batch_emails_params
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company
@@ -69,4 +76,9 @@ class CompaniesController < ApplicationController
     def company_params
       params.require(:company).permit(:name, :siret, :plan_id, :ratio)
     end
+
+  def batch_emails_params
+    puts params
+    redirect_to company_path(@company)
+  end
 end

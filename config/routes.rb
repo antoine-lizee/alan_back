@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :companies, only: [:show, :new, :create] do
     member do
       get 'batch_emails'
-      post 'send_batch_emails'
+      post 'batch_emails', action: :send_batch_emails
     end
   end
 

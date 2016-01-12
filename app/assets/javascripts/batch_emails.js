@@ -137,10 +137,6 @@ function removeParent() {
 // Bindings: ----
 
 $(document).on('page:change', function() {
-  document.getElementById("jsBtn").onclick = function() {
-    var ttt = parseEmails($("#batchEmailSink")[0].value);
-    document.getElementById("jsOut").innerHTML = ttt;
-  };
   document.getElementById("batchEmailSink").oninput = parseSink;
   document.getElementById("email1").oninput = addField;
   document.getElementById("email1").addEventListener('input', parseEmailField);
