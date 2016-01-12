@@ -18,3 +18,7 @@
 
 # RubyMine stuff
 .idea
+
+# cert stuff
+*.key
+*.csr
