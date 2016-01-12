@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160111080657) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "companies", force: :cascade do |t|
     t.string   "name"
     t.string   "siret"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160111080657) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "companies", ["plan_id"], name: "index_companies_on_plan_id"
+  add_index "companies", ["plan_id"], name: "index_companies_on_plan_id", using: :btree
 
   create_table "plans", force: :cascade do |t|
     t.string   "name"
@@ -46,8 +49,10 @@ ActiveRecord::Schema.define(version: 20160111080657) do
     t.integer  "company_id"
   end
 
-  add_index "users", ["company_id"], name: "index_users_on_company_id"
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["company_id"], name: "index_users_on_company_id", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "companies", "plans"
+  add_foreign_key "users", "companies"
 end
