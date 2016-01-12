@@ -21,11 +21,15 @@
   </div>
   <div class="field">
     <%= f.label :plan_id %><br>
-    <%= f.text_field :plan_id %>
+    <%= f.select(:plan_id) do %>
+      <% Plan.all.each do |p| -%>
+        <%= content_tag(:option, p.name, value: p.id) %>
+      <% end %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :ratio %><br>
-    <%= f.text_field :ratio %>
+    <%= f.range_field(:ratio, in: 0..1, :step => '.1') %>
   </div>
   <div class="actions">
     <%= f.submit %>
