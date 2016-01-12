@@ -12,10 +12,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    unless resource.company_id
+    unless resource.company
       new_company_path
     else
-      super
+      dashboard_path
     end
   end
 
