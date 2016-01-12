@@ -8,7 +8,11 @@
   <%= render 'layouts/shim' %>
 </head>
 <body>
+
 <%= render 'layouts/header' %>
+
+<%= errors_for(@company) %>
+
 <div class="container">
   <% if notice %>
     <p class="alert alert-success"><%= notice %></p>
