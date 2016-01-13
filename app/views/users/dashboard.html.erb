@@ -2,4 +2,6 @@
 
 <p>Welcome <%= @user.email %> </p>
 
-<p>[To the front end dev: customize me in app/views/users/dashboard.html.erb]</p>
+<% if @user.company_admin && @user.company %>
+<%= link_to "Go to company dashboard", company_path(@user.company), class: "btn btn-info" %>
+<% end %>

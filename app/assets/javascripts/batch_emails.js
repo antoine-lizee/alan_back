@@ -44,7 +44,7 @@ var addField = function() {
 
 function parseEmails(emailString) {
 
-  var sepRegex = /\.\s|\s\.|[\s,\/#!$%\^&\*;:{}=`~()\<\>]/;
+  var sepRegex = /\.\s|\s\.|[\s"',\/#!$%\^&\*;:{}=`~()\<\>]/;
   var emailRegex=/^[^\s@]+@[^\s@]+$/i;
 
   return emailString.split(sepRegex)

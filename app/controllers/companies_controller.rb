@@ -27,6 +27,7 @@ class CompaniesController < ApplicationController
     respond_to do |format|
       if @company.save
         current_user.company = @company
+        current_user.company_admin = true
         if current_user.save
           format.html { redirect_to batch_emails_company_path(@company), notice: 'Company information was successfully saved.' }
           format.json { head :service_unavailable }
@@ -70,7 +71,8 @@ class CompaniesController < ApplicationController
   def send_batch_emails
     users = batch_emails_params.reject {|u| u['email'].blank?}.map do |u|
       User.create(email: u['email'],
-        password: (0...12).map { (65 + rand(26)).chr }.join,
+        # password: (0...12).map { (65 + rand(26)).chr }.join,
+        password: 'qwerpoiuqwerpoiu',
         company: @company
       )
     end
