@@ -1,32 +1,45 @@
 <h1> Mega Cool COMPANY DASHBOARD </h1>
 
-<h2> Emails in process </h2>
+<h2> Onboarding: Emails sent</h2>
 
 <% @company.users.each do |user| %>
-  <p> <%= user.email %> </p>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-2">
+      <p><%= user.email %></p>
+    </div>
+    <div class="col-md-2 col-md-offset-0">
+      <p>Status: not sent</p>
+    </div>
+    <div class="col-md-1 col-md-offset-0 text-center">
+    <%= button_tag "Send again", class: "btn btn-warning center-block" %>
+    </div>
+  </div>
 <% end %>
 
-
-<!-- There will go the nice list of guys having there email sent-->
+<div class="row">
+  <div class="col-md-2 col-md-offset-2">
+    <%= link_to "Add more emails", batch_emails_company_path, class: "btn btn-info" %>
+  </div>
+</div>
 
 <h2> Details </h2>
 
-<p>
+<p class="center">
   <strong>Name:</strong>
   <%= @company.name %>
 </p>
 
-<p>
+<p class="center">
   <strong>Siret:</strong>
   <%= @company.siret %>
 </p>
 
-<p>
+<p class="center">
   <strong>Plan:</strong>
   <%= @company.plan.name %> (Plan #<%= @company.plan_id %>)
 </p>
 
-<p>
+<p class="center">
   <strong>Ratio:</strong>
   <%= @company.ratio %>
 </p>
