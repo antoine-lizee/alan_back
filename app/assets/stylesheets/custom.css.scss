@@ -10,6 +10,7 @@ $gray-medium-light: #eaeaea;
 
 body {
   padding-top: 60px;
+  background: #f5f4f0;
 }
 
 section {
@@ -68,8 +69,7 @@ p {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: #f3f3f3;
-  text-transform: uppercase;
+  color: #000;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
@@ -80,8 +80,8 @@ p {
 }
 
 .navbar-ah {
-  background-color: #80d0d0;
-  border-color: #fff;
+  background-color: #f5f4f0;
+  border-color: #d5d4d0;
 }
 
 .navbar-ah a {
